@@ -33,5 +33,26 @@ module Parse
       Protocol.user_uri @parse_object_id
     end
 
+    class Facebook < Parse::User
+      def self.authenticate(fb_id, access_token, expiry_date)
+        body = {
+          "authData" => {
+            "facebook" => {
+              "id" => fb_id,
+              "access_token" => access_token,
+              "expiration_date" => expiry_date
+            }
+          }
+        }
+        
+        response = Parse.client.request(Parse::Protocol.user_uri, :post, body.to_json)
+        Parse.client.session_token = response[Parse::Protocol::KEY_USER_SESSION_TOKEN]
+        
+        new(response)
+
+      end
+    end
+
   end
+
 end

@@ -57,4 +57,18 @@ class TestUser < ParseTestCase
     assert_equal Hash.new, reset_password
   end
 
+  def test_facebook_login
+
+    fb_id = "YOUR_FACEBOOK_ID"
+    token = "YOUR_ACCESS_TOKEN"
+    # e.g 2014-06-22T13:42:26.275Z
+    expiry_date = "YOUR_EXPIRY_DATE"
+
+    facebook_user = Parse::User::Facebook.authenticate(fb_id, token, expiry_date)
+
+    assert_equal facebook_user["sessionToken"].class, String
+    assert_equal facebook_user["username"].class, String
+
+  end
+
 end
